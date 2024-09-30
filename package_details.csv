@@ -1,0 +1,320 @@
+Package Name,Version,Requires,Required By
+absl-py,2.1.0,None,"keras, tensorboard, tensorflow"
+aiofiles,24.1.0,None,None
+aiohappyeyeballs,2.4.0,None,aiohttp
+aiohttp,3.10.5,"aiohappyeyeballs, aiosignal, async-timeout, attrs, frozenlist, multidict, yarl",jupyter_server_proxy
+aiosignal,1.3.1,frozenlist,aiohttp
+alembic,1.13.2,"Mako, SQLAlchemy, typing-extensions",mlflow
+aniso8601,9.0.1,None,graphene
+annotated-types,0.7.0,None,pydantic
+anyio,4.4.0,"exceptiongroup, idna, sniffio, typing-extensions","httpx, jupyter_server, starlette"
+apricot-select,0.6.1,"nose, numba, numpy, scipy, tqdm",pomegranate
+argon2-cffi,23.1.0,argon2-cffi-bindings,jupyter_server
+argon2-cffi-bindings,21.2.0,cffi,argon2-cffi
+arrow,1.3.0,"python-dateutil, types-python-dateutil",isoduration
+asgiref,3.8.1,typing-extensions,opentelemetry-instrumentation-asgi
+asttokens,2.4.1,six,stack-data
+astunparse,1.6.3,"six, wheel",tensorflow
+async-lru,2.0.4,typing-extensions,jupyterlab
+async-timeout,4.0.3,None,aiohttp
+attrs,24.2.0,None,"aiohttp, jsonschema, referencing"
+babel,2.16.0,None,jupyterlab_server
+backoff,2.2.1,None,opentelemetry-exporter-otlp-proto-grpc
+beautifulsoup4,4.12.3,soupsieve,nbconvert
+bleach,6.1.0,"six, webencodings",nbconvert
+blinker,1.8.2,None,Flask
+blis,0.7.11,numpy,thinc
+bocd,0.1.2,"matplotlib, numpy, pandas, scipy",None
+bokeh,3.4.3,"contourpy, Jinja2, numpy, packaging, pandas, pillow, PyYAML, tornado, xyzservices","dask_labextension, jupyter_bokeh"
+boto3,1.35.10,"botocore, jmespath, s3transfer",None
+botocore,1.35.10,"jmespath, python-dateutil, urllib3","boto3, s3transfer"
+cachetools,5.5.0,None,"google-auth, mlflow-skinny"
+catalogue,2.0.10,None,"spacy, srsly, thinc"
+certifi,2024.8.30,None,"httpcore, httpx, requests"
+cffi,1.17.0,pycparser,"argon2-cffi-bindings, cryptography"
+charset-normalizer,3.3.2,None,requests
+click,8.1.7,None,"dask, distributed, Flask, mlflow-skinny, nltk, typer, uvicorn"
+cloudpathlib,0.19.0,typing_extensions,weasel
+cloudpickle,3.0.0,None,"dask, dask-glm, distributed, mlflow-skinny, shap"
+cmdstanpy,1.2.4,"numpy, pandas, stanio, tqdm",prophet
+colorama,0.4.6,None,nbdime
+colorcet,3.1.0,None,datashader
+coloredlogs,15.0.1,humanfriendly,onnxruntime
+combo,0.1.3,"joblib, matplotlib, numba, numpy, pyod, scikit-learn, scipy",suod
+comm,0.2.2,traitlets,"ipykernel, ipywidgets"
+confection,0.1.5,"pydantic, srsly","thinc, weasel"
+contourpy,1.3.0,numpy,"bokeh, matplotlib"
+cryptography,43.0.0,cffi,pyOpenSSL
+cycler,0.12.1,None,matplotlib
+cymem,2.0.8,None,"preshed, spacy, thinc"
+Cython,3.0.11,None,None
+dask,2024.8.0,"click, cloudpickle, fsspec, importlib-metadata, packaging, partd, pyyaml, toolz","dask-expr, dask-glm, dask-ml, dask-xgboost, datashader, distributed"
+dask-expr,1.1.10,"dask, pandas, pyarrow",None
+dask-glm,0.3.2,"cloudpickle, dask, distributed, multipledispatch, scikit-learn, scipy, sparse",dask-ml
+dask_labextension,7.0.0,"bokeh, distributed, jupyter-server-proxy, jupyterlab",None
+dask-ml,2024.4.4,"dask, dask-glm, distributed, multipledispatch, numba, numpy, packaging, pandas, scikit-learn, scipy",None
+dask-xgboost,0.1.10,"dask, distributed, xgboost",None
+databricks-sdk,0.31.1,"google-auth, requests",mlflow-skinny
+datashader,0.16.3,"colorcet, dask, multipledispatch, numba, numpy, packaging, pandas, param, pillow, pyct, requests, scipy, toolz, xarray",None
+debugpy,1.8.5,None,ipykernel
+decorator,5.1.1,None,ipython
+defusedxml,0.7.1,None,nbconvert
+Deprecated,1.2.14,wrapt,"opentelemetry-api, opentelemetry-propagator-b3"
+deprecation,2.1.0,packaging,splunk-sdk
+distributed,2024.8.0,"click, cloudpickle, dask, jinja2, locket, msgpack, packaging, psutil, pyyaml, sortedcontainers, tblib, toolz, tornado, urllib3, zict","dask-glm, dask-ml, dask-xgboost, dask_labextension"
+dnspython,2.6.1,None,email_validator
+docker,7.1.0,"requests, urllib3",mlflow
+dsdlsupport,1.0.0,None,None
+email_validator,2.2.0,"dnspython, idna",None
+en-core-web-sm,3.7.1,spacy,None
+exceptiongroup,1.2.2,None,"anyio, ipython"
+executing,2.1.0,None,stack-data
+fastapi,0.112.2,"pydantic, starlette, typing-extensions",None
+fastjsonschema,2.20.0,None,nbformat
+filelock,3.15.4,None,torch
+Flask,3.0.3,"blinker, click, importlib-metadata, itsdangerous, Jinja2, Werkzeug",mlflow
+flatbuffers,24.3.25,None,"onnxruntime, tensorflow, tf2onnx"
+fonttools,4.53.1,None,matplotlib
+fqdn,1.5.1,None,None
+frozenlist,1.4.1,None,"aiohttp, aiosignal"
+fsspec,2024.6.1,None,"dask, torch"
+gast,0.6.0,None,tensorflow
+gitdb,4.0.11,smmap,GitPython
+GitPython,3.1.43,gitdb,"mlflow-skinny, nbdime"
+google-auth,2.34.0,"cachetools, pyasn1-modules, rsa",databricks-sdk
+google-pasta,0.2.0,six,tensorflow
+googleapis-common-protos,1.65.0,protobuf,opentelemetry-exporter-otlp-proto-grpc
+graphene,3.3,"aniso8601, graphql-core, graphql-relay",mlflow
+graphql-core,3.2.3,None,"graphene, graphql-relay"
+graphql-relay,3.2.0,graphql-core,graphene
+greenlet,3.0.3,None,SQLAlchemy
+grpcio,1.66.1,None,"opentelemetry-exporter-otlp-proto-grpc, tensorboard, tensorflow"
+gunicorn,23.0.0,packaging,mlflow
+h11,0.14.0,None,"httpcore, uvicorn"
+h5py,3.10.0,numpy,"keras, tensorflow"
+holidays,0.55,python-dateutil,prophet
+httpcore,1.0.5,"certifi, h11",httpx
+httptools,0.6.1,None,None
+httpx,0.27.2,"anyio, certifi, httpcore, idna, sniffio",jupyterlab
+humanfriendly,10.0,None,coloredlogs
+idna,3.8,None,"anyio, email_validator, httpx, requests, yarl"
+ImageHash,4.3.1,"numpy, pillow, PyWavelets, scipy",None
+imageio,2.35.1,"numpy, pillow",scikit-image
+imbalanced-learn,0.12.3,"joblib, numpy, scikit-learn, scipy, threadpoolctl",None
+importlib_metadata,8.4.0,zipp,"dask, Flask, jupyter-lsp, jupyter_client, jupyter_server_proxy, jupyterlab, jupyterlab_server, Markdown, mlflow-skinny, nbconvert"
+importlib_resources,6.4.4,zipp,"matplotlib, prophet"
+ipykernel,6.29.5,"comm, debugpy, ipython, jupyter-client, jupyter-core, matplotlib-inline, nest-asyncio, packaging, psutil, pyzmq, tornado, traitlets",jupyterlab
+ipython,8.18.1,"decorator, exceptiongroup, jedi, matplotlib-inline, pexpect, prompt-toolkit, pygments, stack-data, traitlets, typing-extensions","ipykernel, ipywidgets"
+ipywidgets,8.1.5,"comm, ipython, jupyterlab-widgets, traitlets, widgetsnbextension",jupyter_bokeh
+isoduration,20.11.0,arrow,None
+itsdangerous,2.2.0,None,Flask
+jedi,0.19.1,parso,ipython
+Jinja2,3.1.4,MarkupSafe,"bokeh, distributed, Flask, jupyter_server, jupyterlab, jupyterlab_server, mlflow, nbconvert, nbdime, spacy, torch"
+jmespath,1.0.1,None,"boto3, botocore"
+joblib,1.4.2,None,"combo, imbalanced-learn, kmodes, nltk, pyod, scikit-learn, suod"
+json5,0.9.25,None,jupyterlab_server
+jsonpointer,3.0.0,None,None
+jsonschema,4.23.0,"attrs, jsonschema-specifications, referencing, rpds-py","jupyter-events, jupyterlab_server, nbformat"
+jsonschema-specifications,2023.12.1,referencing,jsonschema
+jupyter_bokeh,4.0.5,"bokeh, ipywidgets",None
+jupyter_client,8.6.2,"importlib-metadata, jupyter-core, python-dateutil, pyzmq, tornado, traitlets","ipykernel, jupyter_server, nbclient"
+jupyter_core,5.7.2,"platformdirs, traitlets","ipykernel, jupyter_client, jupyter_server, jupyterlab, nbclient, nbconvert, nbformat"
+jupyter-events,0.10.0,"jsonschema, python-json-logger, pyyaml, referencing, rfc3339-validator, rfc3986-validator, traitlets",jupyter_server
+jupyter-lsp,2.2.5,"importlib-metadata, jupyter-server",jupyterlab
+jupyter_server,2.14.2,"anyio, argon2-cffi, jinja2, jupyter-client, jupyter-core, jupyter-events, jupyter-server-terminals, nbconvert, nbformat, overrides, packaging, prometheus-client, pyzmq, send2trash, terminado, tornado, traitlets, websocket-client","jupyter-lsp, jupyter-server-mathjax, jupyter_server_proxy, jupyterlab, jupyterlab_git, jupyterlab_server, nbdime, notebook, notebook_shim"
+jupyter-server-mathjax,0.2.6,jupyter-server,nbdime
+jupyter_server_proxy,4.4.0,"aiohttp, importlib-metadata, jupyter-server, simpervisor, tornado, traitlets",dask_labextension
+jupyter_server_terminals,0.5.3,terminado,jupyter_server
+jupyterlab,4.2.5,"async-lru, httpx, importlib-metadata, ipykernel, jinja2, jupyter-core, jupyter-lsp, jupyter-server, jupyterlab-server, notebook-shim, packaging, setuptools, tomli, tornado, traitlets","dask_labextension, notebook"
+jupyterlab_git,0.50.1,"jupyter-server, nbdime, nbformat, packaging, pexpect, traitlets",None
+jupyterlab_pygments,0.3.0,None,nbconvert
+jupyterlab_server,2.27.3,"babel, importlib-metadata, jinja2, json5, jsonschema, jupyter-server, packaging, requests","jupyterlab, notebook"
+jupyterlab_widgets,3.0.13,None,ipywidgets
+keras,3.5.0,"absl-py, h5py, ml-dtypes, namex, numpy, optree, packaging, rich",tensorflow
+kiwisolver,1.4.5,None,matplotlib
+kmodes,0.12.2,"joblib, numpy, scikit-learn, scipy",None
+langcodes,3.4.0,language-data,spacy
+language_data,1.2.0,marisa-trie,langcodes
+lazy_loader,0.4,packaging,scikit-image
+Levenshtein,0.25.1,rapidfuzz,None
+libclang,18.1.1,None,tensorflow
+lime,0.2.0.1,"matplotlib, numpy, scikit-image, scikit-learn, scipy, tqdm",None
+llvmlite,0.43.0,None,numba
+locket,1.0.0,None,"distributed, partd"
+Mako,1.3.5,MarkupSafe,alembic
+marisa-trie,1.2.0,setuptools,language_data
+Markdown,3.7,importlib-metadata,"mlflow, tensorboard"
+markdown-it-py,3.0.0,mdurl,rich
+MarkupSafe,2.1.5,None,"Jinja2, Mako, nbconvert, Werkzeug"
+matplotlib,3.9.2,"contourpy, cycler, fonttools, importlib-resources, kiwisolver, numpy, packaging, pillow, pyparsing, python-dateutil","bocd, combo, lime, mlflow, prophet, pyod, seaborn, suod"
+matplotlib-inline,0.1.7,traitlets,"ipykernel, ipython"
+mdurl,0.1.2,None,markdown-it-py
+mistune,3.0.2,None,nbconvert
+ml-dtypes,0.4.0,numpy,"keras, onnxscript, tensorflow"
+mlflow,2.16.0,"alembic, docker, Flask, graphene, gunicorn, Jinja2, markdown, matplotlib, mlflow-skinny, numpy, pandas, pyarrow, scikit-learn, scipy, sqlalchemy",None
+mlflow-skinny,2.16.0,"cachetools, click, cloudpickle, databricks-sdk, gitpython, importlib-metadata, opentelemetry-api, opentelemetry-sdk, packaging, protobuf, pyyaml, requests, sqlparse",mlflow
+mpmath,1.3.0,None,sympy
+msgpack,1.0.8,None,distributed
+multidict,6.0.5,None,"aiohttp, yarl"
+multipledispatch,1.0.0,None,"dask-glm, dask-ml, datashader"
+murmurhash,1.0.10,None,"preshed, spacy, thinc"
+namex,0.0.8,None,keras
+nbclient,0.10.0,"jupyter-client, jupyter-core, nbformat, traitlets",nbconvert
+nbconvert,7.16.4,"beautifulsoup4, bleach, defusedxml, importlib-metadata, jinja2, jupyter-core, jupyterlab-pygments, markupsafe, mistune, nbclient, nbformat, packaging, pandocfilters, pygments, tinycss2, traitlets",jupyter_server
+nbdime,4.0.1,"colorama, gitpython, jinja2, jupyter-server, jupyter-server-mathjax, nbformat, pygments, requests, tornado",jupyterlab_git
+nbformat,5.10.4,"fastjsonschema, jsonschema, jupyter-core, traitlets","jupyter_server, jupyterlab_git, nbclient, nbconvert, nbdime"
+nest-asyncio,1.6.0,None,ipykernel
+networkx,3.2.1,None,"pomegranate, scikit-image, torch"
+nltk,3.9.1,"click, joblib, regex, tqdm",textblob
+nose,1.3.7,None,apricot-select
+notebook,7.2.2,"jupyter-server, jupyterlab, jupyterlab-server, notebook-shim, tornado",None
+notebook_shim,0.2.4,jupyter-server,"jupyterlab, notebook"
+numba,0.60.0,"llvmlite, numpy","apricot-select, combo, dask-ml, datashader, pyod, shap, sparse, stumpy"
+numpy,1.26.4,None,"apricot-select, blis, bocd, bokeh, cmdstanpy, combo, contourpy, dask-ml, datashader, h5py, ImageHash, imageio, imbalanced-learn, keras, kmodes, lime, matplotlib, ml-dtypes, mlflow, numba, onnx, onnxconverter-common, onnxruntime, onnxscript, opt-einsum, pandas, patsy, pomegranate, prophet, pyarrow, pyod, PyWavelets, rrcf, scikit-image, scikit-learn, scipy, seaborn, shap, spacy, sparse, stanio, statsmodels, stumpy, suod, tensorboard, tensorflow, tf2onnx, thinc, tifffile, xarray, xgboost"
+onnx,1.16.2,"numpy, protobuf","onnxconverter-common, onnxscript, skl2onnx, tf2onnx"
+onnxconverter-common,1.13.0,"numpy, onnx, packaging, protobuf",skl2onnx
+onnxruntime,1.19.0,"coloredlogs, flatbuffers, numpy, packaging, protobuf, sympy",None
+onnxscript,0.1.0.dev20240901,"ml-dtypes, numpy, onnx, packaging, typing-extensions",None
+opentelemetry-api,1.12.0,"Deprecated, setuptools","mlflow-skinny, opentelemetry-exporter-jaeger-thrift, opentelemetry-exporter-otlp-proto-grpc, opentelemetry-instrumentation, opentelemetry-instrumentation-asgi, opentelemetry-instrumentation-fastapi, opentelemetry-propagator-b3, opentelemetry-sdk, splunk-opentelemetry"
+opentelemetry-exporter-jaeger-thrift,1.12.0,"opentelemetry-api, opentelemetry-sdk, thrift",None
+opentelemetry-exporter-otlp-proto-grpc,1.12.0,"backoff, googleapis-common-protos, grpcio, opentelemetry-api, opentelemetry-proto, opentelemetry-sdk",None
+opentelemetry-instrumentation,0.33b0,"opentelemetry-api, setuptools, wrapt","opentelemetry-instrumentation-asgi, opentelemetry-instrumentation-fastapi, splunk-opentelemetry"
+opentelemetry-instrumentation-asgi,0.33b0,"asgiref, opentelemetry-api, opentelemetry-instrumentation, opentelemetry-semantic-conventions, opentelemetry-util-http",opentelemetry-instrumentation-fastapi
+opentelemetry-instrumentation-fastapi,0.33b0,"opentelemetry-api, opentelemetry-instrumentation, opentelemetry-instrumentation-asgi, opentelemetry-semantic-conventions, opentelemetry-util-http",None
+opentelemetry-propagator-b3,1.12.0,"deprecated, opentelemetry-api",None
+opentelemetry-proto,1.12.0,protobuf,opentelemetry-exporter-otlp-proto-grpc
+opentelemetry-sdk,1.12.0,"opentelemetry-api, opentelemetry-semantic-conventions, setuptools, typing-extensions","mlflow-skinny, opentelemetry-exporter-jaeger-thrift, opentelemetry-exporter-otlp-proto-grpc, splunk-opentelemetry"
+opentelemetry-semantic-conventions,0.33b0,None,"opentelemetry-instrumentation-asgi, opentelemetry-instrumentation-fastapi, opentelemetry-sdk, splunk-opentelemetry"
+opentelemetry-util-http,0.33b0,None,"opentelemetry-instrumentation-asgi, opentelemetry-instrumentation-fastapi"
+opt-einsum,3.3.0,numpy,tensorflow
+optree,0.12.1,typing-extensions,keras
+overrides,7.7.0,None,jupyter_server
+packaging,24.1,None,"bokeh, dask, dask-ml, datashader, deprecation, distributed, gunicorn, ipykernel, jupyter_server, jupyterlab, jupyterlab_git, jupyterlab_server, keras, lazy_loader, matplotlib, mlflow-skinny, nbconvert, onnxconverter-common, onnxruntime, onnxscript, plotly, scikit-image, shap, spacy, statsmodels, tensorboard, tensorflow, thinc, weasel, xarray"
+pandas,2.2.2,"numpy, python-dateutil, pytz, tzdata","bocd, bokeh, cmdstanpy, dask-expr, dask-ml, datashader, mlflow, prophet, seaborn, shap, statsmodels, suod, xarray"
+pandocfilters,1.5.1,None,nbconvert
+param,2.1.1,None,"datashader, pyct"
+parso,0.8.4,None,jedi
+partd,1.4.2,"locket, toolz",dask
+patsy,0.5.6,"numpy, six",statsmodels
+pexpect,4.9.0,ptyprocess,"ipython, jupyterlab_git"
+pillow,10.4.0,None,"bokeh, datashader, ImageHash, imageio, matplotlib, scikit-image"
+pip,24.2,None,None
+platformdirs,4.2.2,None,jupyter_core
+plotly,5.24.0,"packaging, tenacity",None
+pomegranate,1.1.0,"apricot-select, networkx, numpy, scikit-learn, scipy, torch",None
+preshed,3.0.9,"cymem, murmurhash","spacy, thinc"
+prometheus_client,0.20.0,None,jupyter_server
+prompt_toolkit,3.0.47,wcwidth,ipython
+prophet,1.1.5,"cmdstanpy, holidays, importlib-resources, matplotlib, numpy, pandas, tqdm",None
+protobuf,3.20.3,None,"googleapis-common-protos, mlflow-skinny, onnx, onnxconverter-common, onnxruntime, opentelemetry-proto, tensorboard, tensorflow, tf2onnx"
+psutil,6.0.0,None,"distributed, ipykernel, suod"
+ptyprocess,0.7.0,None,"pexpect, terminado"
+pure_eval,0.2.3,None,stack-data
+pyarrow,17.0.0,numpy,"dask-expr, mlflow"
+pyasn1,0.6.0,None,"pyasn1_modules, rsa"
+pyasn1_modules,0.4.0,pyasn1,google-auth
+pycparser,2.22,None,cffi
+pyct,0.5.0,param,datashader
+pydantic,2.8.2,"annotated-types, pydantic-core, typing-extensions","confection, fastapi, spacy, thinc, weasel"
+pydantic_core,2.20.1,typing-extensions,pydantic
+Pygments,2.18.0,None,"ipython, nbconvert, nbdime, rich"
+pyod,2.0.1,"joblib, matplotlib, numba, numpy, scikit-learn, scipy","combo, suod"
+pyOpenSSL,24.2.1,cryptography,None
+pyparsing,3.1.4,None,matplotlib
+python-dateutil,2.9.0.post0,six,"arrow, botocore, holidays, jupyter_client, matplotlib, pandas"
+python-json-logger,2.0.7,None,jupyter-events
+pytz,2024.1,None,pandas
+PyWavelets,1.6.0,numpy,ImageHash
+PyYAML,6.0.2,None,"bokeh, dask, distributed, jupyter-events, mlflow-skinny"
+pyzmq,26.2.0,None,"ipykernel, jupyter_client, jupyter_server"
+rapidfuzz,3.9.6,None,Levenshtein
+referencing,0.35.1,"attrs, rpds-py","jsonschema, jsonschema-specifications, jupyter-events"
+regex,2024.7.24,None,nltk
+requests,2.32.3,"certifi, charset-normalizer, idna, urllib3","databricks-sdk, datashader, docker, jupyterlab_server, mlflow-skinny, nbdime, spacy, tensorflow, tf2onnx, weasel"
+rfc3339-validator,0.1.4,six,jupyter-events
+rfc3986-validator,0.1.1,None,jupyter-events
+rich,13.8.0,"markdown-it-py, pygments","keras, typer"
+rpds-py,0.20.0,None,"jsonschema, referencing"
+rrcf,0.4.4,numpy,None
+rsa,4.9,pyasn1,google-auth
+s3transfer,0.10.2,botocore,boto3
+scikit-image,0.24.0,"imageio, lazy-loader, networkx, numpy, packaging, pillow, scipy, tifffile",lime
+scikit-learn,1.5.1,"joblib, numpy, scipy, threadpoolctl","combo, dask-glm, dask-ml, imbalanced-learn, kmodes, lime, mlflow, pomegranate, pyod, shap, skl2onnx, suod"
+scipy,1.13.1,numpy,"apricot-select, bocd, combo, dask-glm, dask-ml, datashader, ImageHash, imbalanced-learn, kmodes, lime, mlflow, pomegranate, pyod, scikit-image, scikit-learn, shap, sparse, statsmodels, stumpy, suod, xgboost"
+seaborn,0.13.2,"matplotlib, numpy, pandas",None
+Send2Trash,1.8.3,None,jupyter_server
+setuptools,74.0.0,None,"jupyterlab, marisa-trie, opentelemetry-api, opentelemetry-instrumentation, opentelemetry-sdk, spacy, tensorboard, tensorflow, thinc"
+shap,0.46.0,"cloudpickle, numba, numpy, packaging, pandas, scikit-learn, scipy, slicer, tqdm",None
+shellingham,1.5.4,None,typer
+simpervisor,1.0.0,None,jupyter_server_proxy
+six,1.16.0,None,"asttokens, astunparse, bleach, google-pasta, patsy, python-dateutil, rfc3339-validator, tensorboard, tensorflow, tf2onnx, thrift"
+skl2onnx,1.17.0,"onnx, onnxconverter-common, scikit-learn",None
+slicer,0.0.8,None,shap
+smart-open,7.0.4,wrapt,weasel
+smmap,5.0.1,None,gitdb
+sniffio,1.3.1,None,"anyio, httpx"
+sortedcontainers,2.4.0,None,distributed
+soupsieve,2.6,None,beautifulsoup4
+spacy,3.7.6,"catalogue, cymem, jinja2, langcodes, murmurhash, numpy, packaging, preshed, pydantic, requests, setuptools, spacy-legacy, spacy-loggers, srsly, thinc, tqdm, typer, wasabi, weasel","en-core-web-sm, spacytextblob"
+spacy-legacy,3.0.12,None,spacy
+spacy-loggers,1.0.5,None,spacy
+spacytextblob,4.0.0,"spacy, textblob",None
+sparse,0.15.4,"numba, numpy, scipy",dask-glm
+splunk-opentelemetry,1.8.0,"opentelemetry-api, opentelemetry-instrumentation, opentelemetry-sdk, opentelemetry-semantic-conventions",None
+splunk-sdk,2.0.2,deprecation,None
+SQLAlchemy,2.0.32,"greenlet, typing-extensions","alembic, mlflow"
+sqlparse,0.5.1,None,mlflow-skinny
+srsly,2.4.8,catalogue,"confection, spacy, thinc, weasel"
+stack-data,0.6.3,"asttokens, executing, pure-eval",ipython
+stanio,0.5.1,numpy,cmdstanpy
+starlette,0.38.4,"anyio, typing-extensions",fastapi
+statsmodels,0.14.2,"numpy, packaging, pandas, patsy, scipy",None
+stumpy,1.13.0,"numba, numpy, scipy",None
+suod,0.1.3,"combo, joblib, matplotlib, numpy, pandas, psutil, pyod, scikit-learn, scipy",None
+sympy,1.13.2,mpmath,"onnxruntime, torch"
+tblib,3.0.0,None,distributed
+tenacity,9.0.0,None,plotly
+tensorboard,2.17.1,"absl-py, grpcio, markdown, numpy, packaging, protobuf, setuptools, six, tensorboard-data-server, werkzeug",tensorflow
+tensorboard-data-server,0.7.2,None,tensorboard
+tensorflow,2.17.0,"absl-py, astunparse, flatbuffers, gast, google-pasta, grpcio, h5py, keras, libclang, ml-dtypes, numpy, opt-einsum, packaging, protobuf, requests, setuptools, six, tensorboard, tensorflow-io-gcs-filesystem, termcolor, typing-extensions, wrapt",None
+tensorflow-io-gcs-filesystem,0.37.1,None,tensorflow
+termcolor,2.4.0,None,tensorflow
+terminado,0.18.1,"ptyprocess, tornado","jupyter_server, jupyter_server_terminals"
+textblob,0.15.3,nltk,spacytextblob
+tf2onnx,1.16.1,"flatbuffers, numpy, onnx, protobuf, requests, six",None
+thinc,8.2.5,"blis, catalogue, confection, cymem, murmurhash, numpy, packaging, preshed, pydantic, setuptools, srsly, wasabi",spacy
+threadpoolctl,3.5.0,None,"imbalanced-learn, scikit-learn"
+thrift,0.20.0,six,opentelemetry-exporter-jaeger-thrift
+tifffile,2024.8.30,numpy,scikit-image
+tinycss2,1.3.0,webencodings,nbconvert
+tomli,2.0.1,None,jupyterlab
+toolz,0.12.1,None,"dask, datashader, distributed, partd"
+torch,2.4.0,"filelock, fsspec, jinja2, networkx, sympy, typing-extensions",pomegranate
+tornado,6.4.1,None,"bokeh, distributed, ipykernel, jupyter_client, jupyter_server, jupyter_server_proxy, jupyterlab, nbdime, notebook, terminado"
+tqdm,4.66.5,None,"apricot-select, cmdstanpy, lime, nltk, prophet, shap, spacy"
+traitlets,5.14.3,None,"comm, ipykernel, ipython, ipywidgets, jupyter-events, jupyter_client, jupyter_core, jupyter_server, jupyter_server_proxy, jupyterlab, jupyterlab_git, matplotlib-inline, nbclient, nbconvert, nbformat"
+typer,0.12.5,"click, rich, shellingham, typing-extensions","spacy, weasel"
+types-python-dateutil,2.9.0.20240821,None,arrow
+typing_extensions,4.12.2,None,"alembic, anyio, asgiref, async-lru, cloudpathlib, fastapi, ipython, onnxscript, opentelemetry-sdk, optree, pydantic, pydantic_core, SQLAlchemy, starlette, tensorflow, torch, typer, uvicorn"
+tzdata,2024.1,None,pandas
+uri-template,1.3.0,None,None
+urllib3,1.26.20,None,"botocore, distributed, docker, requests"
+uvicorn,0.30.6,"click, h11, typing-extensions",None
+uvloop,0.20.0,None,None
+wasabi,1.1.3,None,"spacy, thinc, weasel"
+wcwidth,0.2.13,None,prompt_toolkit
+weasel,0.4.1,"cloudpathlib, confection, packaging, pydantic, requests, smart-open, srsly, typer, wasabi",spacy
+webcolors,24.8.0,None,None
+webencodings,0.5.1,None,"bleach, tinycss2"
+websocket-client,1.8.0,None,jupyter_server
+websockets,13.0.1,None,None
+Werkzeug,3.0.4,MarkupSafe,"Flask, tensorboard"
+wheel,0.44.0,None,astunparse
+widgetsnbextension,4.0.13,None,ipywidgets
+wrapt,1.16.0,None,"Deprecated, opentelemetry-instrumentation, smart-open, tensorflow"
+xarray,2024.7.0,"numpy, packaging, pandas",datashader
+xgboost,2.1.1,"numpy, scipy",dask-xgboost
+xyzservices,2024.6.0,None,bokeh
+yarl,1.9.6,"idna, multidict",aiohttp
+zict,3.0.0,None,distributed
+zipp,3.20.1,None,"importlib_metadata, importlib_resources"

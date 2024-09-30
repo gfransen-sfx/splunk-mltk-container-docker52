@@ -1,0 +1,2 @@
+Removed dask-xgboost > deprecated, functionality of this project has been included directly in XGBoost
+Removed causalnex > requires python <3.11

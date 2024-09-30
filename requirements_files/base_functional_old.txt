@@ -1,0 +1,25 @@
+
+# FastAPI stack
+fastapi>=0.109.1
+pydantic
+uvicorn
+aiofiles
+pyopenssl 
+
+# splunk functionality dependancies
+splunk-sdk
+splunk-opentelemetry[all]
+opentelemetry-instrumentation-fastapi==0.33b0
+
+#interactive python dependancies
+ipywidgets
+jupyterlab-git
+widgetsnbextension
+matplotlib
+
+# basic data-science libraries
+pandas
+numpy
+
+# jupyter
+jupyterlab>4.0.0

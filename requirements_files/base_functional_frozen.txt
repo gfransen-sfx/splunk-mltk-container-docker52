@@ -1,0 +1,68 @@
+# FastAPI stack
+fastapi==0.112.2
+pydantic==2.8.2
+uvicorn==0.30.6
+aiofiles==24.1.0
+pyopenssl==24.2.1
+cryptography==43.0.0
+starlette==0.38.4
+
+# jupyter
+jupyterlab==4.2.5,
+jupyterlab-git==0.50.1
+jupyterlab-server==2.27.3
+aiohttp==3.10.5
+jsonschema==4.23.0
+nbconvert==7.16.4
+nbdime==4.0.1
+nbformat==5.10.4
+notebook==7.2.2
+
+
+#interactive python dependancies
+ipywidgets==8.1.5
+widgetsnbextension==4.0.13
+matplotlib==3.9.2
+
+# splunk functionality dependancies
+opentelemetry-api==1.12.0
+opentelemetry-instrumentation-fastapi==0.33b0
+opentelemetry-sdk==1.12.0
+splunk-opentelemetry==1.8.0[all]
+splunk-sdk==2.0.2
+
+# basic data-science libraries
+pandas==2.2.2
+numpy==1.26.4
+
+#matplot
+click==8.1.7
+
+#uvicorn,dask, flask, nltk
+cycler==0.12.1
+
+#uvicorn
+h11==0.14.0,
+
+#ipywidgets
+ipython==8.18.1
+
+#bokeh, datashader, ImageHash, imageio, matplotlib, scikit-image
+pillow==10.4.0
+
+#matplotlib, pandas
+python-dateutil=2.9.0
+pytz==2024.1
+
+#docker, jupyterlab_server, nbdime, spacy, tensorflow, tf2onnx
+requests==2.32.3
+
+#tensorboard, tensorflow, tf2onnx
+six==1.16.0
+
+
+#ipykernel, ipython, ipywidgets, jupyter-events, jupyter_client, jupyter_core, jupyter_server, jupyter_server_proxy, jupyterlab, jupyterlab_git
+traitlets==5.14.3
+
+#fastapi, ipython, onnxscript, opentelemetry-sdk, pydantic, pydantic_core, SQLAlchemy
+typing-extensions==4.12.2

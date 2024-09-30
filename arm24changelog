@@ -1,0 +1,18 @@
+-Update change log
+-create multiple req. files
+
+
+base_functional
+-fastapi -removed forced version due to compatability issue with newer packages
+
+specific_golden_cpu
+-pyarrow - removed forced version
+-mlflow - removed forced version
+-spacy - removed forced version
+-spacytextblob - removed forced version
+-dask-xgboost - deprecated, replaced with xgboost feature in dask directly.
+
+
+TO DEBUG
+-pymilvus - server not connecting
+
