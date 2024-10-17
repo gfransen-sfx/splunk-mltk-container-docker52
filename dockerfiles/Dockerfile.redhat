@@ -3,6 +3,7 @@ FROM ${BASE_IMAGE}
 ARG TAG
 ARG REQUIREMENTS_PYTHON_BASE
 ARG REQUIREMENTS_PYTHON_SPECIFIC
+ARG TARGETPLATFORM
 
 # setup environment
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
@@ -16,9 +17,16 @@ RUN dnf update -y && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 
+# Install build tools
 RUN dnf install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget make sqlite-devel
 
+# NON-EPEL subscribers (DEFAULT) can get python39 version with build below
+# EPEL subscribers, comment 'Build Python from source' lines below, and uncomment with dnf install.
+
+#RUN dnf install python39 -y
+
 # Build Python from source
+RUN dnf remove python3-requests -y
 WORKDIR /tmp
 RUN wget https://www.python.org/ftp/python/3.9.13/Python-3.9.13.tgz \
     && tar xzf Python-3.9.13.tgz \
@@ -42,15 +50,29 @@ RUN dnf update -y \
     && rm -rf /var/cache/yum \
     && rm -rf /games/
 
+# Remove legacy Urllib3 version from base image
+RUN rm -rf /usr/lib/python3.9/site-packages/urllib3*
+RUN rm -rf /usr/local/lib/python3.9/site-packages/urllib3*
+RUN rm -rf /usr/lib/python3.9/site-packages/idna-2.10-py3.9.egg-info
+RUN rm -rf /usr/local/lib/python3.9/site-packages/idna-2.*
+RUN rm -rf /usr/share/python3-wheels/setuptools-53.0.0-py3-none-any.whl
+RUN rm -rf /usr/lib/python3.9/site-packages/setuptools-53.0.0.dist-info
+
 # configure file system
 WORKDIR /srv
 RUN mkdir /dltk
 
+# NON-EPEL subscribers (DEFAULT) can get hdf5 version with build below
+# EPEL subscribers, comment 'non-EPEL' section below, and uncomment 'EPEL' section.
+
+#RUN dnf install hdf5 -y
+
+##### non-EPEL hdf5 install #####
 # Copy and run the HDF5 installation script, then set up the environment and verify installation
 COPY install_hdf5.sh /tmp/install_hdf5.sh
 RUN /bin/bash /tmp/install_hdf5.sh && \
     echo "source /etc/profile.d/hdf5.sh" >> ~/.bashrc && \
-    if [ ! -f /usr/local/hdf5/lib/libhdf5.so ]; then \
+    if [ ! -f ${HDF5_DIR}/lib/libhdf5.so ]; then \
         echo "Error: HDF5 library not found. Exiting." && exit 1; \
     fi
 
@@ -70,21 +92,20 @@ ENV PATH=/usr/local/hdf5/bin:$PATH
 #RUN if [ ! -f /usr/local/hdf5/lib/libhdf5.so ]; then \
 #        echo "Error: HDF5 library not found. Exiting." && exit 1; \
 #    fi
+##### non-EPEL end #####
 
 # Ensure pip and setuptools are up to date
 RUN pip3 install --no-cache-dir --upgrade pip setuptools==74.0.0 wheel
 
-#Remove conflicting base image package
-RUN dnf remove python3-requests -y
-
 # install base python requirements
 COPY ./requirements_files/${REQUIREMENTS_PYTHON_BASE} /dltk/${REQUIREMENTS_PYTHON_BASE}
-RUN pip3 install --no-cache-dir --upgrade -r /dltk/${REQUIREMENTS_PYTHON_BASE}
+RUN pip3 install --prefer-binary --no-cache-dir --upgrade -r /dltk/${REQUIREMENTS_PYTHON_BASE}
 
 # install specific python requirements
 COPY ./requirements_files/${REQUIREMENTS_PYTHON_SPECIFIC} /dltk/${REQUIREMENTS_PYTHON_SPECIFIC}
+COPY ./requirements_files/constraints.txt /dltk/constraints.txt
 RUN if [ -s "/dltk/${REQUIREMENTS_PYTHON_SPECIFIC}" ]; then \
-    pip3 install --timeout=100 --no-cache-dir --upgrade -r /dltk/${REQUIREMENTS_PYTHON_SPECIFIC}; fi
+    pip3 install --prefer-binary --timeout=100 --no-cache-dir --upgrade -r /dltk/${REQUIREMENTS_PYTHON_SPECIFIC} --constraint /dltk/constraints.txt; fi
 
 # Remove packages build tools
 #RUN dnf remove -y gcc wget make 
@@ -93,37 +114,52 @@ RUN if [ -s "/dltk/${REQUIREMENTS_PYTHON_SPECIFIC}" ]; then \
 RUN pip3 install --no-cache-dir --upgrade pip && pip cache purge
 RUN npm cache clean --force
 
-#Force update of CVE affected packages
-
-RUN rm -rf /usr/lib/python3.9/site-packages/urllib3*
-RUN rm -rf /usr/local/lib/python3.9/site-packages/urllib3*
-
-RUN rm -rf /usr/share/python3-wheels/setuptools-53.0.0-py3-none-any.whl
-RUN rm -rf /usr/lib/python3.9/site-packages/setuptools-53.0.0.dist-info
-
-RUN rm -rf /usr/lib/python3.9/site-packages/idna-2.10-py3.9.egg-info
-RUN rm -rf /usr/local/lib/python3.9/site-packages/idna-2.*
-
-#latest version supported by splunk-opentelemetry = 41.0.5 CVE = < 43.0.1
-RUN pip3 install --no-cache-dir --force-reinstall urllib3==1.26.19
-RUN pip3 install --no-cache-dir --force-reinstall cryptography==43.0.1
-RUN pip3 install --no-cache-dir --force-reinstall idna>=3.7
+# Force update of CVE affected packages
+#RUN pip3 install --no-cache-dir --upgrade urllib3>=1.26.19
+RUN pip3 install --no-cache-dir --upgrade cryptography>=43.0.1
+#RUN pip3 install --no-cache-dir --upgrade idna>=3.7
+#RUN pip3 install --no-cache-dir --upgrade protobuf==4.23
+#RUN pip3 install --no-cache-dir --upgrade pip setuptools==74.0.0 wheel
+#RUN python3 -m pip install --upgrade --force-reinstall pip>=23.3
 
 # For npm packages (NodeJS)
 RUN npm install --force ip@2.0.1 semver@7.5.2 tar@6.2.1
-
-RUN pip check
 
 # Create SUOD directory if it doesn't exist and change its permissions
 RUN mkdir -p /usr/local/lib/python3.9/site-packages/suod/models/saved_models/ && \
     chmod -R 777 /usr/local/lib/python3.9/site-packages/suod/models/saved_models/
 
 
+# EPEL subscribers, comment 'non-EPEL' section below, and uncomment 'EPEL' section.
+# non-EPEL check graphiz install
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+    if pip3 freeze | grep -q graphviz; \
+    then echo 'Graphviz pip is installed, downloading dependencies...'; \
+    curl -O https://rpmfind.net/linux/centos-stream/9-stream/AppStream/aarch64/os/Packages/libXaw-1.0.13-19.el9.aarch64.rpm && \
+    curl -O https://mirror.stream.centos.org/9-stream/AppStream/aarch64/os/Packages/libXaw-devel-1.0.13-19.el9.aarch64.rpm && \
+    curl -O https://mirror.stream.centos.org/9-stream/AppStream/x86_64/os/Packages/xorg-x11-fonts-Type1-7.5-33.el9.noarch.rpm && \
+    curl -O https://mirror.stream.centos.org/9-stream/AppStream/aarch64/os/Packages/libXt-1.2.0-6.el9.aarch64.rpm && \
+    curl -O https://mirror.stream.centos.org/9-stream/AppStream/aarch64/os/Packages/libXmu-1.1.3-8.el9.aarch64.rpm && \
+    curl -O https://yum.oracle.com/repo/OracleLinux/OL9/appstream/aarch64/getPackage/libXext-1.3.4-8.el9.aarch64.rpm && \
+    curl -O https://yum.oracle.com/repo/OracleLinux/OL9/appstream/aarch64/getPackage/xorg-x11-fonts-ISO8859-1-100dpi-7.5-33.el9.noarch.rpm && \
+    dnf install --skip-broken -y ./xorg-x11-fonts-ISO8859-1-100dpi-7.5-33.el9.noarch.rpm ./xorg-x11-fonts-Type1-7.5-33.el9.noarch.rpm ./libXaw-1.0.13-19.el9.aarch64.rpm ./libXaw-devel-1.0.13-19.el9.aarch64.rpm ./libXt-1.2.0-6.el9.aarch64.rpm ./libXmu-1.1.3-8.el9.aarch64.rpm ./libXext-1.3.4-8.el9.aarch64.rpm && \
+    curl -O https://rpmfind.net/linux/centos-stream/9-stream/AppStream/aarch64/os/Packages/graphviz-2.44.0-26.el9.aarch64.rpm && \
+    dnf install -y ./graphviz-2.44.0-26.el9.aarch64.rpm --nobest; \
+    else echo 'Graphviz is not installed'; fi; \
+fi
+
+
+# EPEL check graphiz install
+#RUN if pip3 freeze | grep -q graphviz; \
+#    then echo 'Graphviz pip is installed, Installing Graphviz...'; \
+#    dnf install -y graphviz; \
+#    else echo 'Graphviz is not installed'; fi
+
 # configure spacy if it was installed
-#RUN if pip3 freeze | grep -q spacy;\
-#    then echo 'Spacy is installed, downloading language file...';\
-#    python3 -m spacy download en_core_web_sm;\
-#    else echo 'Spacy is not installed'; fi
+RUN if pip3 freeze | grep -q spacy;\
+    then echo 'Spacy is installed, downloading language file...';\
+    python3 -m spacy download en_core_web_sm;\
+    else echo 'Spacy is not installed'; fi
 
 # creating new self signed certs
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout dltk.key -out dltk.pem -subj="/CN=dsdl"
@@ -149,6 +185,24 @@ RUN mkdir /dltk/packages
 COPY package-dsdlsupport/dist/dsdlsupport-1.0.0.tar.gz /dltk/packages/dsdlsupport-1.0.0.tar.gz
 RUN pip3 install /dltk/packages/dsdlsupport-1.0.0.tar.gz
 
+# Final pip check before activanting VENV
+RUN pip check
+
+# Botocore has dependency on legacy urllib version
+# Create a virtual environment for installing botocore
+RUN python3 -m venv /opt/venv && \
+    . /opt/venv/bin/activate && \
+    pip install  "botocore==1.35.4" "urllib3==1.26.20" && \
+    pip freeze | grep -E 'botocore|urllib3'
+
+# run VENV req after all installs finished
+# Set the virtual environment activation for future commands
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Update packages to remediate CVEs & pip check
+RUN pip3 install --no-cache-dir --upgrade pip setuptools>=74.0.0 wheel
+RUN pip check
+
 # Copy jupyter config
 COPY config/jupyter_notebook_config.py /dltk/.jupyter/jupyter_notebook_config.py
 
@@ -167,8 +221,8 @@ RUN chgrp -R 0 /srv && \
 RUN chmod g+w /etc/passwd
 USER 1001
 
-# Expose container port 5000 (MLTK Container Service) and 8888 (Notebook)
-EXPOSE 5000 8888
+# Expose container port 5000 (MLTK Container Service), 8888 (Notebook), and 8787 (Dask UI)
+EXPOSE 5000 8888 8787
 # Define bootstrap as entry point to start container
 ENTRYPOINT ["/dltk/bootstrap_fast.sh"]
 

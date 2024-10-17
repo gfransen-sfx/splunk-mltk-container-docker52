@@ -1,0 +1,13 @@
+version: '3'
+services:
+  my_service:
+    image: gfransen/mltk-container-golden-cpu-arm:1.0.0
+    networks:
+      - my_custom_network
+    ports:
+      - "8787:8787"
+
+networks:
+  my_custom_network:
+    driver: bridge
+

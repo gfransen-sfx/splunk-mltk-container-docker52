@@ -20,7 +20,9 @@ nbdime
 nbformat
 notebook
 numpy
-opentelemetry-instrumentation-fastapi>=0.41b0
+opentelemetry-api
+opentelemetry-instrumentation-fastapi==0.41b0
+opentelemetry-sdk
 pandas
 pillow
 pydantic
@@ -28,14 +30,14 @@ pyopenssl
 python-dateutil
 pytz
 requests
-setuptools>=70.0.0
+#setuptools>=74.0.0
 six
-splunk-opentelemetry
+splunk-opentelemetry[all]
 splunk-sdk
 starlette
 traitlets
 typing-extensions
-urllib3>=1.26.19
+urllib3==1.26.19 #latest version supported by botocore
 uvicorn
 uvloop
 websockets

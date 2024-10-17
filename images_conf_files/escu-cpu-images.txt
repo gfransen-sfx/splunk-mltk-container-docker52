@@ -1,0 +1,5 @@
+[escu-cpu]
+title = ESCU (5.2.0)
+image = mltk-container-escu-cpu:1.0.0
+repo = gfransen/
+runtime = none

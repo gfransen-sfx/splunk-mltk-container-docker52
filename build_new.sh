@@ -96,43 +96,37 @@ set -e
 dnf install -y wget make gcc gcc-c++ zlib-devel
 
 # Set HDF5 version and installation directory
-HDF5_VERSION="1.14.5"
+HDF5_VERSION="1.14.4-3"
 HDF5_DIR="/usr/local/hdf5"
 
 # Download and extract HDF5 from GitHub
-wget https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.5/hdf5-1.14.5.tar.gz -O hdf5-${HDF5_VERSION}.tar.gz
-tar -xzf hdf5-${HDF5_VERSION}.tar.gz
+wget https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz -O hdf5-\${HDF5_VERSION}.tar.gz
+tar -xzf hdf5-\${HDF5_VERSION}.tar.gz
 
 # Navigate to the extracted directory
-cd hdf5-1.14.5
+cd hdf5-1.14.4-3
 
-# Configure and build HDF5 without C++, Java, or tests, ensuring library directory is set correctly
-./configure --prefix=${HDF5_DIR} --enable-build-mode=production --enable-shared --disable-cxx --disable-tests --disable-java --libdir=${HDF5_DIR}/lib
-
-# Build and install HDF5
-make -j$(nproc)
+# Configure and build HDF5 without C++ API (to avoid _Float16 error)
+./configure --prefix=\${HDF5_DIR} --enable-build-mode=production --enable-shared --disable-cxx
+make -j\$(nproc)
 make install
 
-# Remove Java-related components after successful installation to prevent CVE-2020-15250  
-rm -rf ${HDF5_DIR}/java/
-rm -rf ${HDF5_DIR}/hl/c++/test/
+# Set environment variables
+export HDF5_DIR=\${HDF5_DIR}
+export LD_LIBRARY_PATH=\${HDF5_DIR}/lib:\$LD_LIBRARY_PATH
+export PATH=\${HDF5_DIR}/bin:\$PATH
 
-# Verify if libhdf5.so was installed successfully in the correct location
-if [ ! -f ${HDF5_DIR}/lib/libhdf5.so ]; then
+# Add HDF5 library path to system's library path
+echo "\${HDF5_DIR}/lib" > /etc/ld.so.conf.d/hdf5.conf
+ldconfig
+
+# Verify installation
+if [ ! -f \${HDF5_DIR}/lib/libhdf5.so ]; then
     echo "Error: HDF5 installation failed. libhdf5.so not found."
     exit 1
 fi
 
-# Set environment variables
-export HDF5_DIR=${HDF5_DIR}
-export LD_LIBRARY_PATH=${HDF5_DIR}/lib:$LD_LIBRARY_PATH
-export PATH=${HDF5_DIR}/bin:$PATH
-
-# Add HDF5 library path to system's library path
-echo "${HDF5_DIR}/lib" > /etc/ld.so.conf.d/hdf5.conf
-ldconfig
-
-# Verify installation
+# Run a simple test to verify installation
 echo "Running HDF5 installation verification..."
 echo '#include "hdf5.h"
 int main() {
@@ -141,7 +135,7 @@ int main() {
     return 0;
 }' > test_hdf5.c
 
-gcc -o test_hdf5 test_hdf5.c -I${HDF5_DIR}/include -L${HDF5_DIR}/lib -lhdf5
+gcc -o test_hdf5 test_hdf5.c -I\${HDF5_DIR}/include -L\${HDF5_DIR}/lib -lhdf5
 
 if ./test_hdf5; then
     echo "HDF5 installation and verification succeeded."
@@ -152,7 +146,7 @@ fi
 
 # Clean up
 rm test_hdf5.c test_hdf5 test.h5
-rm -rf hdf5-1.14.5 hdf5-${HDF5_VERSION}.tar.gz
+rm -rf hdf5-1.14.4-3 hdf5-\${HDF5_VERSION}.tar.gz
 
 # Create a script to set environment variables
 cat << EOT > /etc/profile.d/hdf5.sh
@@ -161,8 +155,7 @@ export LD_LIBRARY_PATH=\${HDF5_DIR}/lib:\$LD_LIBRARY_PATH
 export PATH=\${HDF5_DIR}/bin:\$PATH
 EOT
 
-echo "HDF5 ${HDF5_VERSION} installed successfully in ${HDF5_DIR}"
-
+echo "HDF5 \${HDF5_VERSION} installed successfully in \${HDF5_DIR}"
 
 EOF
 
@@ -187,6 +180,7 @@ docker_build_cmd="docker build --rm -t $container_name:$version \
   --build-arg REQUIREMENTS_PYTHON_SPECIFIC=$specific_requirements \
   --platform $platform \
   -f ./dockerfiles/$dockerfile"
+
 
 # Run the docker build 
 docker_build_cmd+=" ."
