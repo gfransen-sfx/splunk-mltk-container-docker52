@@ -58,6 +58,8 @@ RUN rm -rf /usr/local/lib/python3.9/site-packages/idna-2.*
 RUN rm -rf /usr/share/python3-wheels/setuptools-53.0.0-py3-none-any.whl
 RUN rm -rf /usr/lib/python3.9/site-packages/setuptools-53.0.0.dist-info
 
+RUN pip3 uninstall cryptography==43.0.3
+
 # configure file system
 WORKDIR /srv
 RUN mkdir /dltk
@@ -116,7 +118,7 @@ RUN npm cache clean --force
 
 # Force update of CVE affected packages
 #RUN pip3 install --no-cache-dir --upgrade urllib3>=1.26.19
-RUN pip3 install --no-cache-dir --upgrade cryptography>=43.0.1
+#RUN pip3 install --no-cache-dir --upgrade cryptography==43.0.1
 #RUN pip3 install --no-cache-dir --upgrade idna>=3.7
 #RUN pip3 install --no-cache-dir --upgrade protobuf==4.23
 #RUN pip3 install --no-cache-dir --upgrade pip setuptools==74.0.0 wheel

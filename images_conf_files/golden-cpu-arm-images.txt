@@ -1,5 +1,5 @@
 [golden-cpu-arm]
 title = Red Hat UBI Golden CPU ARM (5.2.0)
-image = mltk-container-golden-cpu-arm:1.0.3
+image = mltk-container-golden-cpu-arm:1.0.0
 repo = gfransen/
 runtime = none

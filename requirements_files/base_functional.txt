@@ -1,42 +1,25 @@
-aiofiles
-aiohttp
-click
-cryptography
-cycler
-email-validator
+
+# FastAPI stack
 fastapi
-h11
-httptools
-idna>=3.8
-ipython
-ipywidgets
-jsonschema
-jupyterlab
-jupyterlab-git
-jupyterlab-server
-matplotlib
-nbconvert
-nbdime
-nbformat
-notebook
-numpy
-opentelemetry-instrumentation-fastapi>=0.41b0
-pandas
-pillow
 pydantic
-pyopenssl
-python-dateutil
-pytz
-requests
-setuptools>=70.0.0
-six
-splunk-opentelemetry
-splunk-sdk
-starlette
-traitlets
-typing-extensions
-urllib3>=1.26.19
 uvicorn
-uvloop
-websockets
+aiofiles
+pyopenssl 
+
+# jupyter
+jupyterlab
+
+#interactive python dependancies
+ipywidgets
+jupyterlab-git
 widgetsnbextension
+matplotlib
+
+# splunk functionality dependancies
+splunk-sdk
+splunk-opentelemetry[all]
+opentelemetry-instrumentation-fastapi
+
+# basic data-science libraries
+pandas
+numpy

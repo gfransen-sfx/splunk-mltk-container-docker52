@@ -1,10 +1,10 @@
+
 #pymc
 #pymilvus
+urllib3>=1.26.19
 bocd
 boto3
 #botocore requires legacy UrlLib dependency, venv installed in build.sh
-
-
 graphviz #Required for python.visualize
 ipycytoscape #Required for python.visualize
 catalogue
@@ -16,7 +16,7 @@ dask-xgboost
 datashader
 grpcio
 gunicorn
-h5py>=3.10.0 
+h5py
 imagehash
 imbalanced-learn
 jmespath
@@ -33,13 +33,13 @@ nltk
 notebook
 numba
 numpy
-onnx>=1.16.2
+onnx
 onnxruntime
 onnxscript
 pandas
 Pillow
 plotly
-pomegranate>=1.1.0 
+pomegranate
 prophet
 protobuf
 pyod
@@ -65,4 +65,4 @@ torch
 tqdm
 typing-extensions
 wasabi
-xgboost>=1.6
+xgboost

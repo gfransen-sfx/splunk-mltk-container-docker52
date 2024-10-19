@@ -180,7 +180,7 @@ if [[ "$base_image" == "redhat/ubi9" ]]; then
 fi
 
 # Build the base docker command --no-cache 
-docker_build_cmd="docker build --rm -t $container_name:$version \
+docker_build_cmd="docker build --no-cache --rm -t $container_name:$version \
   --build-arg BASE_IMAGE=$base_image \
   --build-arg TAG=$tag \
   --build-arg REQUIREMENTS_PYTHON_BASE=$base_requirements \
