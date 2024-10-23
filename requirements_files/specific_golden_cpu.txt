@@ -11,7 +11,7 @@ scipy
 scikit-learn
 networkx
 
-tensorflow-cpu
+#tensorflow-cpu
 mlflow>=2.9.2
 
 prophet
@@ -29,13 +29,13 @@ rrcf
 pyod 
 suod
 pymc3
-spacy>=2.3.2
-spacytextblob>=0.1.7
+spacy==2.3.2
+spacytextblob==0.1.7
 
 pymilvus
 
- --extra-index-url https://download.pytorch.org/whl/cpu
- torch
+#--extra-index-url https://download.pytorch.org/whl/cpu
+# torch
 
 onnx
 onnxscript

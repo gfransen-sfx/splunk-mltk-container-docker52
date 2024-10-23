@@ -1,16 +1,6 @@
-#ARM
-scikit-image>=0.18.0
-# urllib3>=1.26.19
-# setuptools>=70.0.0
-# opentelemetry-instrumentation-fastapi>=0.41b0
-# idna>=3.8
-# fastapi>=0.109.1
-# jupyterlab>4.0.0
-# h5py>=3.10.0 
-# onnx>=1.16.2
-# pomegranate>=1.1.0 
-# xgboost>=1.6
-# cryptography==43.0.1
-
-#AMD
-protobuf<5.0,>=4.23
+setuptools>=70.0.0
+opentelemetry-instrumentation-fastapi==0.41b0
+urllib3>=1.26.19
+requests>=2.32.0 
+cryptography>=43.0.1
+idna>=3.7

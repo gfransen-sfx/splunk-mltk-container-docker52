@@ -25,13 +25,6 @@ else
   tag="$1"
 fi
 
-if [ -z "$2" ]; then
-  platform="linux/amd64"
-  echo "No platform specified. Using default platform: ${platform}"
-else
-  platform="$2"
-fi
-
 echo "Compiling pip requirements for $tag"
 
 line=$(grep "^${tag}," tag_mapping.csv)
@@ -78,7 +71,6 @@ if [ "$line" != "" ]; then
         --build-arg BASE_IMAGE=$base_image \
         --build-arg TAG=$tag \
         --build-arg COMPILED_REQUIREMENTS_FILE=$compiled_requirements_id.in \
-        --platform $platform \
         -f ./dockerfiles/$requirements_dockerfile\
         .
 

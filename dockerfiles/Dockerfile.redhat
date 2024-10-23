@@ -1,4 +1,4 @@
-ARG BASE_IMAGE
+ARG BASE_IMAGE=redhat/ubi9
 FROM ${BASE_IMAGE}
 ARG TAG
 ARG REQUIREMENTS_PYTHON_BASE
@@ -9,7 +9,7 @@ ARG TARGETPLATFORM
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH=/dltk/.local/bin:/dltk/.local/lib/python3.9/site-packages/:$PATH
 
-# package management and nodejs forced update to adress NPM CVE
+# force update of NPM to resolve CVEs & install package build/management 
 RUN dnf update -y && \
     curl -fsSL https://rpm.nodesource.com/setup_20.x | bash - && \ 
     dnf install -y wget bzip2 git ca-certificates nodejs && \
@@ -17,145 +17,58 @@ RUN dnf update -y && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 
-# Install build tools
-RUN dnf install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget make sqlite-devel
+# package management
+RUN yum install wget bzip2 git ca-certificates gcc -y
+#RUN yum install nodejs -y
+RUN yum install python39 -y
 
-# NON-EPEL subscribers (DEFAULT) can get python39 version with build below
-# EPEL subscribers, comment 'Build Python from source' lines below, and uncomment with dnf install.
+RUN find / -name "pip"
 
-#RUN dnf install python39 -y
+RUN rm -rf /usr/local/lib/python3.9/site-packages/pip
+RUN rm -rf /usr/lib/python3.9/site-packages/pip
+RUN rm -rf /root/.cache/pip
 
-# Build Python from source
-RUN dnf remove python3-requests -y
-WORKDIR /tmp
-RUN wget https://www.python.org/ftp/python/3.9.13/Python-3.9.13.tgz \
-    && tar xzf Python-3.9.13.tgz \
-    && cd Python-3.9.13 \
-    && ./configure --enable-optimizations \
-    && make altinstall \
-    && ln -sf /usr/local/bin/python3.9 /usr/bin/python3 \
-    && ln -sf /usr/local/bin/pip3.9 /usr/bin/pip3 \
-    && cd .. \
-    && rm -rf Python-3.9.13 \
-    && rm Python-3.9.13.tgz
+# setup python+pip+upgrade
+RUN python3 -m ensurepip 
+RUN find / -name "pip"
+RUN rm -rf /root/.cache/pip
+RUN find / -name "pip"
+RUN /usr/bin/python3 -m pip install --upgrade pip
 
-# setup python+pip
-RUN python3 -m ensurepip --upgrade
+
+# install build requirements for arm64
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+        pip3 install wheel && \
+        yum install python3-devel -y --exclude=python3-pip && \
+        yum remove python3-requests -y; \
+    else \
+        echo 'Not ARM64 platform'; \
+    fi
 
 # update everything
-RUN dnf update -y \
-    && dnf upgrade -y \
-    && dnf remove vim-minimal -y \
-    && dnf clean all \
-    && rm -rf /var/cache/yum \
-    && rm -rf /games/
+RUN yum update -y
+RUN yum upgrade -y
+RUN yum remove vim-minimal -y
+RUN yum autoremove -y
+RUN pip3 install --no-cache-dir --upgrade pip
 
 # Remove legacy Urllib3 version from base image
 RUN rm -rf /usr/lib/python3.9/site-packages/urllib3*
-RUN rm -rf /usr/local/lib/python3.9/site-packages/urllib3*
-RUN rm -rf /usr/lib/python3.9/site-packages/idna-2.10-py3.9.egg-info
-RUN rm -rf /usr/local/lib/python3.9/site-packages/idna-2.*
-RUN rm -rf /usr/share/python3-wheels/setuptools-53.0.0-py3-none-any.whl
-RUN rm -rf /usr/lib/python3.9/site-packages/setuptools-53.0.0.dist-info
-
-RUN pip3 uninstall cryptography==43.0.3
 
 # configure file system
 WORKDIR /srv
 RUN mkdir /dltk
 
-# NON-EPEL subscribers (DEFAULT) can get hdf5 version with build below
-# EPEL subscribers, comment 'non-EPEL' section below, and uncomment 'EPEL' section.
-
-#RUN dnf install hdf5 -y
-
-##### non-EPEL hdf5 install #####
-# Copy and run the HDF5 installation script, then set up the environment and verify installation
-COPY install_hdf5.sh /tmp/install_hdf5.sh
-RUN /bin/bash /tmp/install_hdf5.sh && \
-    echo "source /etc/profile.d/hdf5.sh" >> ~/.bashrc && \
-    if [ ! -f ${HDF5_DIR}/lib/libhdf5.so ]; then \
-        echo "Error: HDF5 library not found. Exiting." && exit 1; \
-    fi
-
-# Persist environment variables for subsequent Docker layers
-ENV HDF5_DIR=/usr/local/hdf5
-ENV LD_LIBRARY_PATH=/usr/local/hdf5/lib:$LD_LIBRARY_PATH
-ENV PATH=/usr/local/hdf5/bin:$PATH
-
-# Copy and run the HDF5 installation script
-#COPY install_hdf5.sh /tmp/install_hdf5.sh
-#RUN /bin/bash /tmp/install_hdf5.sh
-
-# Source the HDF5 environment variables
-#RUN source /etc/profile.d/hdf5.sh
-
-# Verify HDF5 installation before proceeding
-#RUN if [ ! -f /usr/local/hdf5/lib/libhdf5.so ]; then \
-#        echo "Error: HDF5 library not found. Exiting." && exit 1; \
-#    fi
-##### non-EPEL end #####
-
-# Ensure pip and setuptools are up to date
-RUN pip3 install --no-cache-dir --upgrade pip setuptools==74.0.0 wheel
-
 # install base python requirements
 COPY ./requirements_files/${REQUIREMENTS_PYTHON_BASE} /dltk/${REQUIREMENTS_PYTHON_BASE}
-RUN pip3 install --prefer-binary --no-cache-dir --upgrade -r /dltk/${REQUIREMENTS_PYTHON_BASE}
+COPY ./requirements_files/constraints.txt /dltk/constraints.txt
+RUN pip3 install --no-cache-dir --upgrade -r /dltk/${REQUIREMENTS_PYTHON_BASE} --constraint /dltk/constraints.txt;
 
 # install specific python requirements
 COPY ./requirements_files/${REQUIREMENTS_PYTHON_SPECIFIC} /dltk/${REQUIREMENTS_PYTHON_SPECIFIC}
 COPY ./requirements_files/constraints.txt /dltk/constraints.txt
 RUN if [ -s "/dltk/${REQUIREMENTS_PYTHON_SPECIFIC}" ]; then \
     pip3 install --prefer-binary --timeout=100 --no-cache-dir --upgrade -r /dltk/${REQUIREMENTS_PYTHON_SPECIFIC} --constraint /dltk/constraints.txt; fi
-
-# Remove packages build tools
-#RUN dnf remove -y gcc wget make 
-
-# Clean up pip cache and npm cache before installs
-RUN pip3 install --no-cache-dir --upgrade pip && pip cache purge
-RUN npm cache clean --force
-
-# Force update of CVE affected packages
-#RUN pip3 install --no-cache-dir --upgrade urllib3>=1.26.19
-#RUN pip3 install --no-cache-dir --upgrade cryptography==43.0.1
-#RUN pip3 install --no-cache-dir --upgrade idna>=3.7
-#RUN pip3 install --no-cache-dir --upgrade protobuf==4.23
-#RUN pip3 install --no-cache-dir --upgrade pip setuptools==74.0.0 wheel
-#RUN python3 -m pip install --upgrade --force-reinstall pip>=23.3
-
-# For npm packages (NodeJS)
-RUN npm install --force ip@2.0.1 semver@7.5.2 tar@6.2.1
-
-# Create SUOD directory if it doesn't exist and change its permissions
-RUN mkdir -p /usr/local/lib/python3.9/site-packages/suod/models/saved_models/ && \
-    chmod -R 777 /usr/local/lib/python3.9/site-packages/suod/models/saved_models/
-
-
-# EPEL subscribers, comment 'non-EPEL' section below, and uncomment 'EPEL' section.
-# non-EPEL check graphiz install
-RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
-    if pip3 freeze | grep -q graphviz; \
-    then echo 'Graphviz pip is installed, downloading dependencies...'; \
-    curl -O https://rpmfind.net/linux/centos-stream/9-stream/AppStream/aarch64/os/Packages/libXaw-1.0.13-19.el9.aarch64.rpm && \
-    curl -O https://mirror.stream.centos.org/9-stream/AppStream/aarch64/os/Packages/libXaw-devel-1.0.13-19.el9.aarch64.rpm && \
-    curl -O https://mirror.stream.centos.org/9-stream/AppStream/x86_64/os/Packages/xorg-x11-fonts-Type1-7.5-33.el9.noarch.rpm && \
-    curl -O https://mirror.stream.centos.org/9-stream/AppStream/aarch64/os/Packages/libXt-1.2.0-6.el9.aarch64.rpm && \
-    curl -O https://mirror.stream.centos.org/9-stream/AppStream/aarch64/os/Packages/libXmu-1.1.3-8.el9.aarch64.rpm && \
-    curl -O https://yum.oracle.com/repo/OracleLinux/OL9/appstream/aarch64/getPackage/libXext-1.3.4-8.el9.aarch64.rpm && \
-    curl -O https://yum.oracle.com/repo/OracleLinux/OL9/appstream/aarch64/getPackage/xorg-x11-fonts-ISO8859-1-100dpi-7.5-33.el9.noarch.rpm && \
-    dnf install --skip-broken -y ./xorg-x11-fonts-ISO8859-1-100dpi-7.5-33.el9.noarch.rpm ./xorg-x11-fonts-Type1-7.5-33.el9.noarch.rpm ./libXaw-1.0.13-19.el9.aarch64.rpm ./libXaw-devel-1.0.13-19.el9.aarch64.rpm ./libXt-1.2.0-6.el9.aarch64.rpm ./libXmu-1.1.3-8.el9.aarch64.rpm ./libXext-1.3.4-8.el9.aarch64.rpm && \
-    curl -O https://rpmfind.net/linux/centos-stream/9-stream/AppStream/aarch64/os/Packages/graphviz-2.44.0-26.el9.aarch64.rpm && \
-    dnf install -y ./graphviz-2.44.0-26.el9.aarch64.rpm --nobest; \
-    else echo 'Graphviz is not installed'; fi; \
-fi
-
-
-# EPEL check graphiz install
-#RUN if pip3 freeze | grep -q graphviz; \
-#    then echo 'Graphviz pip is installed, Installing Graphviz...'; \
-#    dnf install -y graphviz; \
-#    else echo 'Graphviz is not installed'; fi
 
 # configure spacy if it was installed
 RUN if pip3 freeze | grep -q spacy;\
@@ -173,37 +86,24 @@ COPY ./bootstrap_scripts/bootstrap_backup.sh /dltk/
 COPY app /dltk/app
 COPY notebooks /dltk/notebooks
 COPY package_tests /dltk/package_tests
+COPY school_of_dsdl /dltk/school_of_dsdl
 
 # Install dos2unix, then convert windows-like line endings to linux-like
 # The bootstrap script won't run otherwise if the image was build on a windows machine
 # Finally, remove dos2unix again
-RUN dnf install -y dos2unix
+RUN yum install -y dos2unix
 RUN find /dltk/ -name 'bootstrap_*.sh' -type f -exec dos2unix {} \;
-RUN dnf remove -y dos2unix && yum clean all \
-    && dnf autoremove -y
+RUN yum remove -y dos2unix && yum clean all
 
 # Install local DSDL supporting functions
 RUN mkdir /dltk/packages
 COPY package-dsdlsupport/dist/dsdlsupport-1.0.0.tar.gz /dltk/packages/dsdlsupport-1.0.0.tar.gz
 RUN pip3 install /dltk/packages/dsdlsupport-1.0.0.tar.gz
 
-# Final pip check before activanting VENV
-RUN pip check
 
-# Botocore has dependency on legacy urllib version
-# Create a virtual environment for installing botocore
-RUN python3 -m venv /opt/venv && \
-    . /opt/venv/bin/activate && \
-    pip install  "botocore==1.35.4" "urllib3==1.26.20" && \
-    pip freeze | grep -E 'botocore|urllib3'
-
-# run VENV req after all installs finished
-# Set the virtual environment activation for future commands
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Update packages to remediate CVEs & pip check
-RUN pip3 install --no-cache-dir --upgrade pip setuptools>=74.0.0 wheel
-RUN pip check
+# Fix pip version
+RUN pip3 install --no-cache-dir --upgrade pip && pip cache purge
+RUN python3 -m pip install --upgrade --force-reinstall pip>=23.3 --upgrade-strategy eager
 
 # Copy jupyter config
 COPY config/jupyter_notebook_config.py /dltk/.jupyter/jupyter_notebook_config.py
@@ -223,9 +123,10 @@ RUN chgrp -R 0 /srv && \
 RUN chmod g+w /etc/passwd
 USER 1001
 
-# Expose container port 5000 (MLTK Container Service), 8888 (Notebook), and 8787 (Dask UI)
-EXPOSE 5000 8888 8787
+# Set Trash folder location
+RUN export XDG_DATA_HOME=/srv/.Trash-1001
+
+# Expose container port 5000 (MLTK Container Service) and 8888 (Notebook)
+EXPOSE 5000 8888
 # Define bootstrap as entry point to start container
 ENTRYPOINT ["/dltk/bootstrap_fast.sh"]
-
-

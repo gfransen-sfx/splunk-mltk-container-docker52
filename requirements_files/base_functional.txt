@@ -1,13 +1,12 @@
-
 # FastAPI stack
-fastapi
+fastapi>=0.109.1
 pydantic
 uvicorn
 aiofiles
 pyopenssl 
 
 # jupyter
-jupyterlab
+jupyterlab>4.0.0
 
 #interactive python dependancies
 ipywidgets
