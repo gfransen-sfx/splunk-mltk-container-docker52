@@ -1,18 +1,16 @@
 
 #pymc
 #pymilvus
-urllib3>=1.26.19
 bocd
 boto3
 #botocore requires legacy UrlLib dependency, venv installed in build.sh
 graphviz #Required for python.visualize
-ipycytoscape #Required for python.visualize
 catalogue
 cython
-dask
-dask-labextension #dask-labextension is not listed among installed JupyterLab extensions
-dask-ml
-dask-xgboost
+#dask
+#dask-labextension #dask-labextension is not listed among installed JupyterLab extensions
+#dask-ml
+#dask-xgboost
 datashader
 grpcio
 gunicorn
@@ -22,10 +20,10 @@ imbalanced-learn
 jmespath
 joblib
 jupyterlab
-jupyter_bokeh
+#jupyter_bokeh
 kmodes
 Levenshtein
-lime 
+#lime 
 matplotlib
 mlflow
 networkx
@@ -51,18 +49,18 @@ scipy
 seaborn
 shap
 six
-skl2onnx
+#skl2onnx
 spacy
 spacytextblob
 sqlalchemy
 statsmodels
 stumpy
-tensorflow
+#tensorflow
 textblob # requires NLTK to fully function
 #tf2onnx>=1.16.0 #has not been maintained for ~2years and has dependecies on decrepitated packages, replaced with ONNXMLTools which full fills same requirements and more.
-ONNXMLTools
+#ONNXMLTools
 torch
 tqdm
 typing-extensions
 wasabi
-xgboost
+#xgboost
